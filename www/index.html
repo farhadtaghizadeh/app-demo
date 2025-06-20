@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mobile App Framework</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f8f9fa;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            /* Remove overflow: hidden; */
+        }
+
+        .app-header {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            flex-shrink: 0;
+            height: 60px;
+        }
+
+        .app-header h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .page-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            /* Remove overflow: hidden; */
+        }
+
+        .page {
+            display: none;
+            height: calc(100vh - 60px - 60px); /* header + tab bar */
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+            padding-bottom: 70px;
+            box-sizing: border-box;
+            /* Remove opacity/transform transitions for simplicity */
+        }
+        .page.active {
+            display: block;
+        }
+
+        .page h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .page-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .tab-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 60px;
+            z-index: 100;
+            display: flex;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            border-top: 1px solid #ddd;
+        }
+
+        .tab {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 5px;
+            color: #7f8c8d;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab i {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            color: #3498db;
+            background: rgba(52, 152, 219, 0.05);
+        }
+
+        .tab.active i {
+            transform: translateY(-5px);
+            text-shadow: 0 5px 10px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Home Page Styles */
+        .welcome-card {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .welcome-card i {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+
+        /* Info Card Styles */
+        .info-card {
+            cursor: pointer;
+            transition: transform 0.3s;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f1f8ff;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .info-card h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .info-card p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        /* Checklist Page Styles */
+        .add-task {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .add-task input {
+            flex: 1;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px 0 0 10px;
+            font-size: 1rem;
+        }
+
+        .add-task button {
+            padding: 0 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 0 10px 10px 0;
+            cursor: pointer;
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .task-item input[type="checkbox"] {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-content h3 {
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .task-content p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .task-item.completed .task-content h3,
+        .task-item.completed .task-content p {
+            text-decoration: line-through;
+            color: #95a5a6;
+        }
+
+        /* Notifications Page Styles */
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .notification-item i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: #3498db;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content h3 {
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .notification-content p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .notification-time {
+            color: #95a5a6;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        /* Login Page Styles */
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .additional-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .additional-options a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .social-login p {
+            position: relative;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .social-login p::before,
+        .social-login p::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .social-login p::before {
+            left: 0;
+        }
+
+        .social-login p::after {
+            right: 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+        }
+
+        .facebook {
+            background: linear-gradient(to right, #3b5998, #4867aa);
+        }
+
+        .google {
+            background: linear-gradient(to right, #dd4b39, #ea4335);
+        }
+
+        .twitter {
+            background: linear-gradient(to right, #1da1f2, #1a91da);
+        }
+
+        /* Profile Page Styles */
+        .profile-section {
+            text-align: center;
+        }
+
+        .profile-avatar img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-info h3 {
+            margin: 10px 0;
+            color: #2c3e50;
+        }
+
+        .profile-info p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <h1>Mobile App Framework</h1>
+        </div>
+
+        <div class="page-container">
+            <!-- Login Page (now first page) -->
+            <div id="login-page" class="page active">
+                <h2>Account Login</h2>
+                <div class="page-content">
+                    <div class="login-form">
+                        <h2>Welcome Back</h2>
+                        <form id="login-form">
+                            <div class="form-group">
+                                <label for="username">Username or Email</label>
+                                <input type="text" id="username" class="form-control" placeholder="Enter your username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                            </div>
+                            <button type="submit" class="btn">Login</button>
+                            <div class="additional-options">
+                                <a href="#">Forgot Password?</a>
+                                <a href="#">Create Account</a>
+                            </div>
+                            <div class="social-login">
+                                <p>Or continue with</p>
+                                <div class="social-icons">
+                                    <div class="social-icon facebook">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </div>
+                                    <div class="social-icon google">
+                                        <i class="fab fa-google"></i>
+                                    </div>
+                                    <div class="social-icon twitter">
+                                        <i class="fab fa-twitter"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home Page -->
+            <div id="home-page" class="page">
+                <h2>Home</h2>
+                <div class="page-content welcome-card">
+                    <img src="img/icanlogo.jpg" alt="ICAN Logo" style="width:180px; height:180px; display:block; margin:0 auto 24px auto; border-radius:24px; box-shadow:0 2px 16px rgba(0,0,0,0.12);">
+                    <h2>Welcome to Iowa College Access Network</h2>
+                    <p>Your Portal For Navigating Your Career Entry Journey</p>
+                </div>
+                <!-- Info Cards (now just static content) -->
+                <div class="page-content info-card">
+                    <h3>Career Training Apprenticeship Programs</h3>
+                    <p>Apprenticeship and job training programs are options that provide specific career and industry training. On-the-job training Apprenticeships Career-focused certificate and degree programs at a community college or career training center.</p>
+                </div>
+                <div class="page-content info-card">
+                    <h3>Academic Planning</h3>
+                    <p>Success in high school leads to success later in life, whether you choose to continue your education or pursue a career. Find the balance that works for you to start achieving success now.</p>
+                </div>
+                <div class="page-content info-card">
+                    <h3>Financial Aid</h3>
+                    <p>A college education is one of the largest financial investments you'll make for your future. You have a lot of options when it comes to choosing a program and a school that's right for you, all of which cost some money and most of which cost a lot.</p>
+                </div>
+            </div>
+
+            <!-- Checklist Page -->
+            <div id="checklist-page" class="page">
+                <h2>Task Checklist</h2>
+                <!-- Progress Bar -->
+                <div id="progress-container" style="margin-bottom:20px;">
+                    <label id="progress-label" style="display:block; margin-bottom:8px; font-weight:500; color:#2c3e50;">0 of 0 tasks completed</label>
+                    <div style="background:#e0e0e0; border-radius:10px; height:18px; width:100%; overflow:hidden;">
+                        <div id="progress-bar" style="height:100%; width:0%; background:linear-gradient(to right, #3498db, #2980b9); border-radius:10px; transition:width 0.4s;"></div>
+                    </div>
+                </div>
+                <div class="page-content">
+                    <!-- Month: June -->
+                    <h3 style="margin-top:0; color:#3498db;">June</h3>
+                    <div class="task-list" id="task-list-june">
+                        <div class="task-item completed">
+                            <input type="checkbox" checked>
+                            <div class="task-content">
+                                <h3>Design app wireframes</h3>
+                                <p>Create initial design concepts</p>
+                            </div>
+                        </div>
+                        <div class="task-item completed">
+                            <input type="checkbox" checked>
+                            <div class="task-content">
+                                <h3>Develop prototype</h3>
+                                <p>Build interactive prototype</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Month: July -->
+                    <h3 style="color:#3498db;">July</h3>
+                    <div class="task-list" id="task-list-july">
+                        <div class="task-item">
+                            <input type="checkbox">
+                            <div class="task-content">
+                                <h3>Implement backend</h3>
+                                <p>Create API endpoints</p>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <input type="checkbox">
+                            <div class="task-content">
+                                <h3>Test application</h3>
+                                <p>Perform QA testing</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Month: August -->
+                    <h3 style="color:#3498db;">August</h3>
+                    <div class="task-list" id="task-list-august">
+                        <div class="task-item">
+                            <input type="checkbox">
+                            <div class="task-content">
+                                <h3>Deploy to production</h3>
+                                <p>Release to app stores</p>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <input type="checkbox">
+                            <div class="task-content">
+                                <h3>Create documentation</h3>
+                                <p>Write user guides</p>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <input type="checkbox">
+                            <div class="task-content">
+                                <h3>Prepare marketing</h3>
+                                <p>Create launch campaign</p>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <input type="checkbox">
+                            <div class="task-content">
+                                <h3>Onboard team members</h3>
+                                <p>Setup training sessions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications Page -->
+            <div id="notifications-page" class="page">
+                <h2>Notifications</h2>
+                <div class="page-content">
+                    <div class="notification-list">
+                        <div class="notification-item">
+                            <i class="fas fa-user-plus"></i>
+                            <div class="notification-content">
+                                <h3>New Connection</h3>
+                                <p>Alex Johnson sent you a connection request</p>
+                            </div>
+                            <div class="notification-time">10m ago</div>
+                        </div>
+                        <div class="notification-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <div class="notification-content">
+                                <h3>Event Reminder</h3>
+                                <p>Team meeting starts in 30 minutes</p>
+                            </div>
+                            <div class="notification-time">1h ago</div>
+                        </div>
+                        <div class="notification-item">
+                            <i class="fas fa-sync-alt"></i>
+                            <div class="notification-content">
+                                <h3>App Update</h3>
+                                <p>Version 2.3 is now available</p>
+                            </div>
+                            <div class="notification-time">3h ago</div>
+                        </div>
+                        <div class="notification-item">
+                            <i class="fas fa-thumbs-up"></i>
+                            <div class="notification-content">
+                                <h3>Like Received</h3>
+                                <p>Sarah liked your recent post</p>
+                            </div>
+                            <div class="notification-time">5h ago</div>
+                        </div>
+                        <div class="notification-item">
+                            <i class="fas fa-comment"></i>
+                            <div class="notification-content">
+                                <h3>New Comment</h3>
+                                <p>Mike commented on your project</p>
+                            </div>
+                            <div class="notification-time">1d ago</div>
+                        </div>
+                        <div class="notification-item">
+                            <i class="fas fa-bell"></i>
+                            <div class="notification-content">
+                                <h3>Weekly Report</h3>
+                                <p>Your weekly productivity report is ready</p>
+                            </div>
+                            <div class="notification-time">2d ago</div>
+                        </div>
+                        <div class="notification-item">
+                            <i class="fas fa-trophy"></i>
+                            <div class="notification-content">
+                                <h3>Achievement</h3>
+                                <p>You've reached level 5 in our rewards program</p>
+                            </div>
+                            <div class="notification-time">3d ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Page (was login page) -->
+            <div id="profile-page" class="page">
+                <h2>Profile</h2>
+                <div class="page-content">
+                    <div class="profile-section">
+                        <div class="profile-avatar" style="text-align:center; margin-bottom:20px;">
+                            <img src="img/icanlogo.jpg" alt="Profile" style="width:100px; height:100px; border-radius:24px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                        </div>
+                        <form id="profile-form">
+                            <div class="form-group">
+                                <label for="profile-name">Name</label>
+                                <input type="text" id="profile-name" class="form-control" value="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-email">Email</label>
+                                <input type="email" id="profile-email" class="form-control" value="john.doe@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-grade">Grade</label>
+                                <select id="profile-grade" class="form-control">
+                                    <option>9th</option>
+                                    <option>10th</option>
+                                    <option>11th</option>
+                                    <option>12th</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-role">Role</label>
+                                <select id="profile-role" class="form-control">
+                                    <option>Student</option>
+                                    <option>Parent</option>
+                                    <option>Teacher</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn" style="margin-bottom:15px;">Save</button>
+                            <button type="button" class="btn" id="logout-btn" style="width:200px; margin:0 auto;">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Pages (hidden by default) -->
+            <div id="about-info-page" class="page">
+                <h2>Career Training Apprenticeship Programs</h2>
+                <div class="page-content">
+                    <p>Four years of college isn’t for everyone and the job market isn’t set up for everyone to need a four-year degree.</p>
+                    <p>Apprenticeship and job training programs are options that provide specific career and industry training.</p>
+                    <ul>
+                        <li>On-the-job training</li>
+                        <li>Apprenticeships</li>
+                        <li>Career-focused certificate and degree programs at a community college or career training center</li>
+                    </ul>
+                    <h3>Earn As You Learn</h3>
+                    <p>The Iowa Building and Construction Trades Registered Apprenticeship Programs are overseen by the U.S. Department of Labor, Bureau of Apprenticeship and Training, and are “earn and learn” curricula that combine on-the-job training with structured learning at no cost to the students. While individual programs and trades vary, in many cases an apprentice student would spend time with experienced professionals on real job sites working and learning the trade. When not on a job, students are in classes. Both on-site and classroom experience provides a paycheck, and while exact figures vary by profession, the average apprentice makes about half of a journeyman’s hourly wage with salary increases every six months, along with health care benefits and the opportunity to enroll in a pension program. Most programs also guarantee a job within the union upon completion of the registered apprenticeship program.</p>
+                    <p>In addition to experience, a paycheck, and a job guarantee, many apprentice program classes and training can be applied to an associate’s or bachelor’s degree. For transfer credit specifics, talk to your local union representative about how programs can be transferred for college credit and to which colleges the transfer credits are accepted.</p>
+                    <h3>Building Trades Registered Apprenticeship Programs - What Are Your Options?</h3>
+                    <ul>
+                        <li>Boilermakers</li>
+                        <li>Bricklayers</li>
+                        <li>Carpenters</li>
+                        <li>Electricians</li>
+                        <li>Elevator Constructors</li>
+                        <li>Glaziers</li>
+                        <li>Insulators</li>
+                        <li>Ironworkers</li>
+                        <li>Laborers</li>
+                        <li>Linemen</li>
+                        <li>Millwrights</li>
+                        <li>Operating Engineers</li>
+                        <li>Painters & Drywall Finishers</li>
+                        <li>Plumbers & Steamfitters</li>
+                        <li>Roofers & Waterproofers</li>
+                        <li>Sheet Metal Workers</li>
+                        <li>Sprinklerfitters</li>
+                        <li>Teamsters</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="features-info-page" class="page">
+                <h2>Academic Planning</h2>
+                <div class="page-content">
+                    <p>As a high school student, you hear a lot of advice about what it takes to be successful.</p>    
+                    <ul>
+                        <li>Get involved in different activities.</li>
+                        <li>Plan for the future.</li>
+                        <li>Achieve high grades.</li>
+                        <li>Challenge yourself with harder classes.</li>
+                        <li>Be responsible.</li>
+                        <li>Study hard.</li>
+                        <li>Go out and have some fun.</li>
+                        <li>Earn some money.</li>
+                    </ul>
+                    <p>So how do you manage those all at the same time? The key is balance. Think of ways to work some of these ideas in with others. For example:</p>
+                    <ul>
+                        <li>To balance classes, take some courses that you know you can get high grades in, a couple of harder classes that will challenge you, and one or two electives that let you explore new options each year.</li>
+                        <li>To balance activities, get involved in different organizations that let you have some fun and give you opportunities to be a leader and work as a team.</li>
+                        <li>To balance the present with the future, take a part-time job that helps you earn money for the future, shows that you're responsible and gives you experience you can use later.</li>
+                    </ul>
+                    <p>Success in high school leads to success later in life, whether you choose to continue your education or pursue a career. Find the balance that works for you to start achieving success now.</p>
+                </div>
+            </div>
+            <div id="support-info-page" class="page">
+                <h2>Financial Aid</h2>
+                <div class="page-content">
+                    <p>A college education is one of the largest financial investments you'll make for your future. You have a lot of options when it comes to choosing a program and a school that's right for you, all of which cost some money and most of which cost a lot. Fortunately, you also have several options when it comes to managing your financial commitment.</p>
+                    <h3>The money you spend now is an investment</h3>
+                    <p>According to a report from the Georgetown University Center on Education and the Workforce (CEW), adults with a bachelor’s degree earn an average of $2.8 million during their careers, $1.2 million more than the median for workers with a high school diploma. With costs rising yearly, a semester of college costs less now than it will later on.</p>
+                    <h3>Financial Aid Process</h3>
+                    <ul>
+                        <li>Set a Budget</li>
+                        <li>Types of Financial Aid</li>
+                        <li>Setup Your StudentAid.gov Account (FSA ID)</li>
+                        <li>Apply</li>
+                        <li>FAFSA</li>
+                        <li>Scholarships & Grants</li>
+                        <li>Compare Financial Aid Offers</li>
+                        <li>Ask for Advice</li>
+                    </ul>
+                    <h3>Set Your Budget</h3>
+                    <p>
+                        Based on your intended career or program of study, set your budget for college. Research your career's starting salary and understand that if you have to borrow to cover college costs, your borrowing should not exceed your first year's starting salary. Determine the amount of money you have available from savings and investments that can go toward college over the next two to four years. This savings can reduce your borrowing amount and provide flexibility in the schools that you can afford to attend. Estimate your costs by looking at NET price at each Iowa college and university.
+                    </p>
+                    <h3>Types of Financial Aid</h3>
+                    <p>
+                        Financial aid is grants, scholarships, work-study and/or federal loans you qualify for. To apply for aid, you'll need to fill out a Free Application for Federal Student Aid (FAFSA) and submit it to the U.S. Department of Education. The FAFSA is a free form that may be completed without professional assistance via paper or electronic forms provided by the U.S. Department of Education. If you need help, ICAN offers no cost assistance.
+                    </p>
+                    <ul>
+                        <li><p><strong>Grants</strong> are given by the government, schools or organizations to help you pay for college. Grants do not need to be repaid and are usually given based on financial need. Grants are awarded as part of your overall financial aid package.</p></li>
+                        <li><p><strong>Scholarships</strong> also don't need to be repaid and are usually given based on financial need or merit (meaning you've earned it by being a good student, a good athlete or meeting some other qualification). Scholarships are awarded by private donors or schools.</p></li>
+                        <li><p><strong>Work-Study</strong> involves a part-time job, usually on campus, so you earn a paycheck (usually to cover personal expenses) while attending school. Work-study jobs are awarded as part of your overall financial aid package, but you'll need to check the available openings and apply for jobs.</p></li>
+                        <li><p><strong>Student loans</strong> must be repaid (with interest) and are often used to cover expenses that can't be paid for in other ways. Many college loans are set up so you don't need to begin making payments until after you graduate.</p></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+            <div class="tab" data-page="home-page">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="tab" data-page="checklist-page">
+                <i class="fas fa-tasks"></i>
+                <span>Checklist</span>
+            </div>
+            <div class="tab" data-page="notifications-page">
+                <i class="fas fa-bell"></i>
+                <span>Alerts</span>
+            </div>
+            <div class="tab" data-page="profile-page">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab navigation functionality
+            const tabs = document.querySelectorAll('.tab');
+            const pages = document.querySelectorAll('.page');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetPageId = this.getAttribute('data-page');
+                    
+                    // Remove active class from all tabs and pages
+                    tabs.forEach(t => t.classList.remove('active'));
+                    pages.forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to current tab and page
+                    this.classList.add('active');
+                    document.getElementById(targetPageId).classList.add('active');
+                });
+            });
+            
+            // Login functionality
+            const loginForm = document.getElementById('login-form');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // Simple validation
+                if (username && password) {
+                    // Simulate login process
+                    alert(`Welcome back, ${username}! You are now logged in.`);
+                    
+                    // Reset form
+                    loginForm.reset();
+                } else {
+                    alert('Please enter both username and password.');
+                }
+            });
+            
+            // Social login buttons
+            const socialIcons = document.querySelectorAll('.social-icon');
+            socialIcons.forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const platform = this.classList[1];
+                    alert(`Login with ${platform.charAt(0).toUpperCase() + platform.slice(1)} clicked`);
+                });
+            });
+            
+            // Task management functionality
+            const addTaskBtn = document.getElementById('add-task-btn');
+            const newTaskInput = document.getElementById('new-task');
+            const taskListJune = document.getElementById('task-list-june');
+            const taskListJuly = document.getElementById('task-list-july');
+            const taskListAugust = document.getElementById('task-list-august');
+            const progressLabel = document.getElementById('progress-label');
+            const progressBar = document.getElementById('progress-bar');
+            
+            // Progress bar update function
+            function updateProgressBar() {
+                const allTasks = document.querySelectorAll('.task-item input[type="checkbox"]');
+                const completedTasks = document.querySelectorAll('.task-item input[type="checkbox"]:checked');
+                const progressLabel = document.getElementById('progress-label');
+                const progressBar = document.getElementById('progress-bar');
+                const total = allTasks.length;
+                const completed = completedTasks.length;
+                progressLabel.textContent = `${completed} of ${total} tasks completed`;
+                progressBar.style.width = total === 0 ? '0%' : `${(completed / total) * 100}%`;
+            }
+            // Update progress bar on load
+            updateProgressBar();
+            // Update progress bar on checkbox change
+            document.querySelectorAll('.task-item input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', updateProgressBar);
+            });
+            // Update progress bar when adding a new task (add to August by default)
+            addTaskBtn.addEventListener('click', function() {
+                const taskText = newTaskInput.value.trim();
+                if (taskText) {
+                    const taskItem = document.createElement('div');
+                    taskItem.className = 'task-item';
+                    taskItem.innerHTML = `
+                        <input type="checkbox">
+                        <div class="task-content">
+                            <h3>${taskText}</h3>
+                            <p>Added just now</p>
+                        </div>
+                    `;
+                    // Add to June by default
+                    document.getElementById('task-list-august').prepend(taskItem);
+                    newTaskInput.value = '';
+                    
+                    // Add event listener to new checkbox
+                    const checkbox = taskItem.querySelector('input[type="checkbox"]');
+                    checkbox.addEventListener('change', updateProgressBar);
+                    updateProgressBar();
+                }
+            });
+            
+            // Initialize task checkboxes
+            const checkboxes = document.querySelectorAll('.task-item input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    this.parentElement.classList.toggle('completed', this.checked);
+                    updateProgress();
+                });
+            });
+            
+            // Helper functions for common actions
+            function hideAllPages() {
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            }
+
+            function deactivateAllTabs() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            }
+
+            // Home page info card navigation
+            const homePage = document.getElementById('home-page');
+            if (homePage) {
+                homePage.addEventListener('click', (e) => {
+                    const card = e.target.closest('.info-card');
+                    
+                    if (card) {
+                        const heading = card.querySelector('h3')?.textContent.trim().toLowerCase() || '';
+                        console.log('Info card clicked:', heading);
+
+                        // Define page mappings
+                        const pageMap = {
+                            'career training': 'about-info-page',
+                            'academic planning': 'features-info-page',
+                            'financial aid': 'support-info-page'
+                        };
+
+                        // Find matching page ID
+                        const infoId = Object.keys(pageMap).find(key => heading.includes(key)) 
+                                        ? pageMap[Object.keys(pageMap).find(key => heading.includes(key))] 
+                                        : '';
+
+                        console.log('Resolved infoId:', infoId);
+
+                        if (infoId) {
+                            hideAllPages();
+                            deactivateAllTabs();
+                            document.getElementById(infoId).classList.add('active');
+                            console.log('Activated info page:', infoId);
+                        } else {
+                            console.log('No matching info page for:', heading);
+                        }
+                    }
+                });
+            }
+
+            // Add back-to-home buttons
+            const infoPages = ['about-info-page', 'features-info-page', 'support-info-page'];
+            infoPages.forEach(pageId => {
+                const page = document.getElementById(pageId);
+                if (page && !page.querySelector('.back-to-home')) {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn back-to-home';
+                    btn.textContent = 'Back to Home';
+                    btn.style.marginTop = '20px';
+                    
+                    btn.addEventListener('click', () => {
+                        hideAllPages();
+                        deactivateAllTabs();
+                        document.getElementById('home-page').classList.add('active');
+                        document.querySelector('.tab[data-page="home-page"]').classList.add('active');
+                    });
+
+                    // Find content container or use page as fallback
+                    const container = page.querySelector('.page-content') || page;
+                    container.appendChild(btn);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
