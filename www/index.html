@@ -425,6 +425,50 @@
             color: #7f8c8d;
             font-size: 0.9rem;
         }
+
+        /* Checklist Page Styles - Updated */
+        .checklist-month {
+            margin-bottom: 30px;
+        }
+
+        .checklist-month h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .checklist-month h3::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, #3498db, #6a11cb);
+            bottom: -5px;
+            left: 0;
+        }
+
+        /* Progress Bar Styles */
+        #checklist-progress-container {
+            margin-bottom: 20px;
+        }
+
+        #checklist-progress-label {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        #checklist-progress-percent {
+            font-weight: 600;
+            color: #3498db;
+        }
+
+        #checklist-progress-bar {
+            height: 8px;
+            background: linear-gradient(90deg, #3498db, #6a11cb);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
     </style>
 </head>
 <body>
@@ -475,106 +519,135 @@
 
             <!-- Home Page -->
             <div id="home-page" class="page">
-                <h2>Home</h2>
+                <h2>Dashboard</h2>
                 <div class="page-content welcome-card">
                     <img src="img/icanlogo.jpg" alt="ICAN Logo" style="width:180px; height:180px; display:block; margin:0 auto 24px auto; border-radius:24px; box-shadow:0 2px 16px rgba(0,0,0,0.12);">
                     <h2>Welcome to Iowa College Access Network</h2>
                     <p>Your Portal For Navigating Your Career Entry Journey</p>
                 </div>
                 <!-- Info Cards (now just static content) -->
-                <div class="page-content info-card">
+                <div class="page-content info-card" data-info="career-training" >
                     <h3>Career Training Apprenticeship Programs</h3>
                     <p>Apprenticeship and job training programs are options that provide specific career and industry training. On-the-job training Apprenticeships Career-focused certificate and degree programs at a community college or career training center.</p>
                 </div>
-                <div class="page-content info-card">
+                <div class="page-content info-card" data-info="academic-planning">
                     <h3>Academic Planning</h3>
                     <p>Success in high school leads to success later in life, whether you choose to continue your education or pursue a career. Find the balance that works for you to start achieving success now.</p>
                 </div>
-                <div class="page-content info-card">
+                <div class="page-content info-card" data-info="financial-aid">
                     <h3>Financial Aid</h3>
-                    <p>A college education is one of the largest financial investments you'll make for your future. You have a lot of options when it comes to choosing a program and a school that's right for you, all of which cost some money and most of which cost a lot.</p>
+                    <p>A college education is one of the largest financial investments you'll make for your future. You have a lot of options when it comes to choosing a program and a school that's right for you, all of which cost some money and most of which cost a lot. Fortunately, you also have several options when it comes to managing your financial commitment.<br></p>
+                </div>
+            </div>
+
+            <!-- Info Pages (hidden by default) -->
+            <div id="career-training-info-page" class="page">
+                <h2>Career Training Apprenticeship Programs<br></h2>
+                <div class="page-content">
+                    <p>Four years of college isn’t for everyone and the job market isn’t set up for everyone to need a four-year degree.<br></p>
+                    <p>Apprenticeship and job training programs are options that provide specific career and industry training.<br></p>
+                    <ul>
+                        <li>On-the-job training</li>
+                        <li>Apprenticeships</li>
+                        <li>Career-focused certificate and degree programs at a community college or career training center</li>
+                    </ul>
+                    <h3><br>Earn As You Learn<br></h3>
+                    <p>The Iowa Building and Construction Trades Registered Apprenticeship Programs are overseen by the U.S. Department of Labor, Bureau of Apprenticeship and Training, and are “earn and learn” curricula that combine on-the-job training with structured learning at no cost to the students. While individual programs and trades vary, in many cases an apprentice student would spend time with experienced professionals on real job sites working and learning the trade. When not on a job, students are in classes. Both on-site and classroom experience provides a paycheck, and while exact figures vary by profession, the average apprentice makes about half of a journeyman’s hourly wage with salary increases every six months, along with health care benefits and the opportunity to enroll in a pension program. Most programs also guarantee a job within the union upon completion of the registered apprenticeship program.<br></p>
+                    <p>In addition to experience, a paycheck, and a job guarantee, many apprentice program classes and training can be applied to an associate’s or bachelor’s degree. For transfer credit specifics, talk to your local union representative about how programs can be transferred for college credit and to which colleges the transfer credits are accepted.<br></p>
+                    <h3><br>Building Trades Registered Apprenticeship Programs - What Are Your Options?<br></h3>
+                    <ul>
+                        <li>Boilermakers</li>
+                        <li>Bricklayers</li>
+                        <li>Carpenters</li>
+                        <li>Electricians</li>
+                        <li>Elevator Constructors</li>
+                        <li>Glaziers</li>
+                        <li>Insulators</li>
+                        <li>Ironworkers</li>
+                        <li>Laborers</li>
+                        <li>Linemen</li>
+                        <li>Millwrights</li>
+                        <li>Operating Engineers</li>
+                        <li>Painters & Drywall Finishers</li>
+                        <li>Plumbers & Steamfitters</li>
+                        <li>Roofers & Waterproofers</li>
+                        <li>Sheet Metal Workers</li>
+                        <li>Sprinklerfitters</li>
+                        <li>Teamsters</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="academic-planning-info-page" class="page">
+                <h2>Academic Planning<br></h2>
+                <div class="page-content">
+                    <p>As a high school student, you hear a lot of advice about what it takes to be successful.<br></p>    
+                    <ul>
+                        <li>Get involved in different activities.</li>
+                        <li>Plan for the future.</li>
+                        <li>Achieve high grades.</li>
+                        <li>Challenge yourself with harder classes.</li>
+                        <li>Be responsible.</li>
+                        <li>Study hard.</li>
+                        <li>Go out and have some fun.</li>
+                        <li>Earn some money.</li>
+                    </ul>
+                    <p><br>So how do you manage those all at the same time? The key is balance. Think of ways to work some of these ideas in with others. For example:<br></p>
+                    <ul>
+                        <li>To balance classes, take some courses that you know you can get high grades in, a couple of harder classes that will challenge you, and one or two electives that let you explore new options each year.</li>
+                        <li>To balance activities, get involved in different organizations that let you have some fun and give you opportunities to be a leader and work as a team.</li>
+                        <li>To balance the present with the future, take a part-time job that helps you earn money for the future, shows that you're responsible and gives you experience you can use later.</li>
+                    </ul>
+                    <p><br>Success in high school leads to success later in life, whether you choose to continue your education or pursue a career. Find the balance that works for you to start achieving success now.<br></p>
+                </div>
+            </div>
+            <div id="financial-aid-info-page" class="page">
+                <h2>Financial Aid<br></h2>
+                <div class="page-content">
+                    <p>A college education is one of the largest financial investments you'll make for your future. You have a lot of options when it comes to choosing a program and a school that's right for you, all of which cost some money and most of which cost a lot. Fortunately, you also have several options when it comes to managing your financial commitment.<br></p>
+                    <h3><br>The money you spend now is an investment<br></h3>
+                    <p>According to a report from the Georgetown University Center on Education and the Workforce (CEW), adults with a bachelor’s degree earn an average of $2.8 million during their careers, $1.2 million more than the median for workers with a high school diploma. With costs rising yearly, a semester of college costs less now than it will later on.<br></p>
+                    <h3><br>Financial Aid Process<br></h3>
+                    <ul>
+                        <li>Set a Budget</li>
+                        <li>Types of Financial Aid</li>
+                        <li>Setup Your StudentAid.gov Account (FSA ID)</li>
+                        <li>Apply</li>
+                        <li>FAFSA</li>
+                        <li>Scholarships & Grants</li>
+                        <li>Compare Financial Aid Offers</li>
+                        <li>Ask for Advice</li>
+                    </ul>
+                    <h3><br>Set Your Budget<br></h3>
+                    <p>
+                        Based on your intended career or program of study, set your budget for college. Research your career's starting salary and understand that if you have to borrow to cover college costs, your borrowing should not exceed your first year's starting salary. Determine the amount of money you have available from savings and investments that can go toward college over the next two to four years. This savings can reduce your borrowing amount and provide flexibility in the schools that you can afford to attend. Estimate your costs by looking at NET price at each Iowa college and university.<br>
+                    </p>
+                    <h3><br>Types of Financial Aid<br></h3>
+                    <p>
+                        Financial aid is grants, scholarships, work-study and/or federal loans you qualify for. To apply for aid, you'll need to fill out a Free Application for Federal Student Aid (FAFSA) and submit it to the U.S. Department of Education. The FAFSA is a free form that may be completed without professional assistance via paper or electronic forms provided by the U.S. Department of Education. If you need help, ICAN offers no cost assistance.<br>
+                    </p>
+                    <ul>
+                        <li><p><strong>Grants</strong> are given by the government, schools or organizations to help you pay for college. Grants do not need to be repaid and are usually given based on financial need. Grants are awarded as part of your overall financial aid package.</p></li>
+                        <li><p><strong>Scholarships</strong> also don't need to be repaid and are usually given based on financial need or merit (meaning you've earned it by being a good student, a good athlete or meeting some other qualification). Scholarships are awarded by private donors or schools.</p></li>
+                        <li><p><strong>Work-Study</strong> involves a part-time job, usually on campus, so you earn a paycheck (usually to cover personal expenses) while attending school. Work-study jobs are awarded as part of your overall financial aid package, but you'll need to check the available openings and apply for jobs.</p></li>
+                        <li><p><strong>Student loans</strong> must be repaid (with interest) and are often used to cover expenses that can't be paid for in other ways. Many college loans are set up so you don't need to begin making payments until after you graduate.</p></li>
+                    </ul>
                 </div>
             </div>
 
             <!-- Checklist Page -->
             <div id="checklist-page" class="page">
                 <h2>Task Checklist</h2>
-                <!-- Progress Bar -->
-                <div id="progress-container" style="margin-bottom:20px;">
-                    <label id="progress-label" style="display:block; margin-bottom:8px; font-weight:500; color:#2c3e50;">0 of 0 tasks completed</label>
-                    <div style="background:#e0e0e0; border-radius:10px; height:18px; width:100%; overflow:hidden;">
-                        <div id="progress-bar" style="height:100%; width:0%; background:linear-gradient(to right, #3498db, #2980b9); border-radius:10px; transition:width 0.4s;"></div>
-                    </div>
-                </div>
                 <div class="page-content">
-                    <!-- Month: June -->
-                    <h3 style="margin-top:0; color:#3498db;">June</h3>
-                    <div class="task-list" id="task-list-june">
-                        <div class="task-item completed">
-                            <input type="checkbox" checked>
-                            <div class="task-content">
-                                <h3>Design app wireframes</h3>
-                                <p>Create initial design concepts</p>
-                            </div>
+                    <div id="checklist-progress-container" style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span id="checklist-progress-label">Progress:</span>
+                            <span id="checklist-progress-percent">0%</span>
                         </div>
-                        <div class="task-item completed">
-                            <input type="checkbox" checked>
-                            <div class="task-content">
-                                <h3>Develop prototype</h3>
-                                <p>Build interactive prototype</p>
-                            </div>
+                        <div style="background: #e0e0e0; border-radius: 8px; height: 16px; margin-top: 6px;">
+                            <div id="checklist-progress-bar" style="height: 16px; background: linear-gradient(90deg, #3498db, #6a11cb); border-radius: 8px; width: 0%; transition: width 0.3s;"></div>
                         </div>
                     </div>
-                    <!-- Month: July -->
-                    <h3 style="color:#3498db;">July</h3>
-                    <div class="task-list" id="task-list-july">
-                        <div class="task-item">
-                            <input type="checkbox">
-                            <div class="task-content">
-                                <h3>Implement backend</h3>
-                                <p>Create API endpoints</p>
-                            </div>
-                        </div>
-                        <div class="task-item">
-                            <input type="checkbox">
-                            <div class="task-content">
-                                <h3>Test application</h3>
-                                <p>Perform QA testing</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Month: August -->
-                    <h3 style="color:#3498db;">August</h3>
-                    <div class="task-list" id="task-list-august">
-                        <div class="task-item">
-                            <input type="checkbox">
-                            <div class="task-content">
-                                <h3>Deploy to production</h3>
-                                <p>Release to app stores</p>
-                            </div>
-                        </div>
-                        <div class="task-item">
-                            <input type="checkbox">
-                            <div class="task-content">
-                                <h3>Create documentation</h3>
-                                <p>Write user guides</p>
-                            </div>
-                        </div>
-                        <div class="task-item">
-                            <input type="checkbox">
-                            <div class="task-content">
-                                <h3>Prepare marketing</h3>
-                                <p>Create launch campaign</p>
-                            </div>
-                        </div>
-                        <div class="task-item">
-                            <input type="checkbox">
-                            <div class="task-content">
-                                <h3>Onboard team members</h3>
-                                <p>Setup training sessions</p>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="checklist-tasks-container"></div>
                 </div>
             </div>
 
@@ -649,19 +722,15 @@
                 <div class="page-content">
                     <div class="profile-section">
                         <div class="profile-avatar" style="text-align:center; margin-bottom:20px;">
-                            <img src="img/icanlogo.jpg" alt="Profile" style="width:100px; height:100px; border-radius:24px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                            <img src="img/icanlogo.jpg" alt="Profile" style="width:80px; height:80px; border-radius:50%; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
                         </div>
-                        <form id="profile-form">
+                        <div class="profile-info" style="text-align:center; margin-bottom: 24px;">
+                            <h3 id="profile-username">John Doe</h3>
+                            <p id="profile-email">john.doe@email.com</p>
+                        </div>
+                        <form id="profile-form" style="max-width: 350px; margin: 0 auto;">
                             <div class="form-group">
-                                <label for="profile-name">Name</label>
-                                <input type="text" id="profile-name" class="form-control" value="John Doe">
-                            </div>
-                            <div class="form-group">
-                                <label for="profile-email">Email</label>
-                                <input type="email" id="profile-email" class="form-control" value="john.doe@email.com">
-                            </div>
-                            <div class="form-group">
-                                <label for="profile-grade">Grade</label>
+                                <label for="profile-grade">Grade Level</label>
                                 <select id="profile-grade" class="form-control">
                                     <option>9th</option>
                                     <option>10th</option>
@@ -670,111 +739,21 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="profile-role">Role</label>
-                                <select id="profile-role" class="form-control">
-                                    <option>Student</option>
-                                    <option>Parent</option>
-                                    <option>Teacher</option>
+                                <label for="profile-gradyear">Graduation Year</label>
+                                <select id="profile-gradyear" class="form-control">
+                                    <option>2026</option>
+                                    <option>2027</option>
+                                    <option>2028</option>
+                                    <option>2029</option>
+                                    <option>2030</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn" style="margin-bottom:15px;">Save</button>
-                            <button type="button" class="btn" id="logout-btn" style="width:200px; margin:0 auto;">Logout</button>
+                            <div class="form-group">
+                                <label for="profile-school">School Name</label>
+                                <input type="text" id="profile-school" class="form-control" placeholder="Enter your school name">
+                            </div>
                         </form>
                     </div>
-                </div>
-            </div>
-
-            <!-- Info Pages (hidden by default) -->
-            <div id="about-info-page" class="page">
-                <h2>Career Training Apprenticeship Programs</h2>
-                <div class="page-content">
-                    <p>Four years of college isn’t for everyone and the job market isn’t set up for everyone to need a four-year degree.</p>
-                    <p>Apprenticeship and job training programs are options that provide specific career and industry training.</p>
-                    <ul>
-                        <li>On-the-job training</li>
-                        <li>Apprenticeships</li>
-                        <li>Career-focused certificate and degree programs at a community college or career training center</li>
-                    </ul>
-                    <h3>Earn As You Learn</h3>
-                    <p>The Iowa Building and Construction Trades Registered Apprenticeship Programs are overseen by the U.S. Department of Labor, Bureau of Apprenticeship and Training, and are “earn and learn” curricula that combine on-the-job training with structured learning at no cost to the students. While individual programs and trades vary, in many cases an apprentice student would spend time with experienced professionals on real job sites working and learning the trade. When not on a job, students are in classes. Both on-site and classroom experience provides a paycheck, and while exact figures vary by profession, the average apprentice makes about half of a journeyman’s hourly wage with salary increases every six months, along with health care benefits and the opportunity to enroll in a pension program. Most programs also guarantee a job within the union upon completion of the registered apprenticeship program.</p>
-                    <p>In addition to experience, a paycheck, and a job guarantee, many apprentice program classes and training can be applied to an associate’s or bachelor’s degree. For transfer credit specifics, talk to your local union representative about how programs can be transferred for college credit and to which colleges the transfer credits are accepted.</p>
-                    <h3>Building Trades Registered Apprenticeship Programs - What Are Your Options?</h3>
-                    <ul>
-                        <li>Boilermakers</li>
-                        <li>Bricklayers</li>
-                        <li>Carpenters</li>
-                        <li>Electricians</li>
-                        <li>Elevator Constructors</li>
-                        <li>Glaziers</li>
-                        <li>Insulators</li>
-                        <li>Ironworkers</li>
-                        <li>Laborers</li>
-                        <li>Linemen</li>
-                        <li>Millwrights</li>
-                        <li>Operating Engineers</li>
-                        <li>Painters & Drywall Finishers</li>
-                        <li>Plumbers & Steamfitters</li>
-                        <li>Roofers & Waterproofers</li>
-                        <li>Sheet Metal Workers</li>
-                        <li>Sprinklerfitters</li>
-                        <li>Teamsters</li>
-                    </ul>
-                </div>
-            </div>
-            <div id="features-info-page" class="page">
-                <h2>Academic Planning</h2>
-                <div class="page-content">
-                    <p>As a high school student, you hear a lot of advice about what it takes to be successful.</p>    
-                    <ul>
-                        <li>Get involved in different activities.</li>
-                        <li>Plan for the future.</li>
-                        <li>Achieve high grades.</li>
-                        <li>Challenge yourself with harder classes.</li>
-                        <li>Be responsible.</li>
-                        <li>Study hard.</li>
-                        <li>Go out and have some fun.</li>
-                        <li>Earn some money.</li>
-                    </ul>
-                    <p>So how do you manage those all at the same time? The key is balance. Think of ways to work some of these ideas in with others. For example:</p>
-                    <ul>
-                        <li>To balance classes, take some courses that you know you can get high grades in, a couple of harder classes that will challenge you, and one or two electives that let you explore new options each year.</li>
-                        <li>To balance activities, get involved in different organizations that let you have some fun and give you opportunities to be a leader and work as a team.</li>
-                        <li>To balance the present with the future, take a part-time job that helps you earn money for the future, shows that you're responsible and gives you experience you can use later.</li>
-                    </ul>
-                    <p>Success in high school leads to success later in life, whether you choose to continue your education or pursue a career. Find the balance that works for you to start achieving success now.</p>
-                </div>
-            </div>
-            <div id="support-info-page" class="page">
-                <h2>Financial Aid</h2>
-                <div class="page-content">
-                    <p>A college education is one of the largest financial investments you'll make for your future. You have a lot of options when it comes to choosing a program and a school that's right for you, all of which cost some money and most of which cost a lot. Fortunately, you also have several options when it comes to managing your financial commitment.</p>
-                    <h3>The money you spend now is an investment</h3>
-                    <p>According to a report from the Georgetown University Center on Education and the Workforce (CEW), adults with a bachelor’s degree earn an average of $2.8 million during their careers, $1.2 million more than the median for workers with a high school diploma. With costs rising yearly, a semester of college costs less now than it will later on.</p>
-                    <h3>Financial Aid Process</h3>
-                    <ul>
-                        <li>Set a Budget</li>
-                        <li>Types of Financial Aid</li>
-                        <li>Setup Your StudentAid.gov Account (FSA ID)</li>
-                        <li>Apply</li>
-                        <li>FAFSA</li>
-                        <li>Scholarships & Grants</li>
-                        <li>Compare Financial Aid Offers</li>
-                        <li>Ask for Advice</li>
-                    </ul>
-                    <h3>Set Your Budget</h3>
-                    <p>
-                        Based on your intended career or program of study, set your budget for college. Research your career's starting salary and understand that if you have to borrow to cover college costs, your borrowing should not exceed your first year's starting salary. Determine the amount of money you have available from savings and investments that can go toward college over the next two to four years. This savings can reduce your borrowing amount and provide flexibility in the schools that you can afford to attend. Estimate your costs by looking at NET price at each Iowa college and university.
-                    </p>
-                    <h3>Types of Financial Aid</h3>
-                    <p>
-                        Financial aid is grants, scholarships, work-study and/or federal loans you qualify for. To apply for aid, you'll need to fill out a Free Application for Federal Student Aid (FAFSA) and submit it to the U.S. Department of Education. The FAFSA is a free form that may be completed without professional assistance via paper or electronic forms provided by the U.S. Department of Education. If you need help, ICAN offers no cost assistance.
-                    </p>
-                    <ul>
-                        <li><p><strong>Grants</strong> are given by the government, schools or organizations to help you pay for college. Grants do not need to be repaid and are usually given based on financial need. Grants are awarded as part of your overall financial aid package.</p></li>
-                        <li><p><strong>Scholarships</strong> also don't need to be repaid and are usually given based on financial need or merit (meaning you've earned it by being a good student, a good athlete or meeting some other qualification). Scholarships are awarded by private donors or schools.</p></li>
-                        <li><p><strong>Work-Study</strong> involves a part-time job, usually on campus, so you earn a paycheck (usually to cover personal expenses) while attending school. Work-study jobs are awarded as part of your overall financial aid package, but you'll need to check the available openings and apply for jobs.</p></li>
-                        <li><p><strong>Student loans</strong> must be repaid (with interest) and are often used to cover expenses that can't be paid for in other ways. Many college loans are set up so you don't need to begin making payments until after you graduate.</p></li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -806,36 +785,42 @@
             const tabs = document.querySelectorAll('.tab');
             const pages = document.querySelectorAll('.page');
             
+            function activatePage(targetPageId) {
+                tabs.forEach(t => t.classList.remove('active'));
+                pages.forEach(p => p.classList.remove('active'));
+                const tab = document.querySelector('.tab[data-page="' + targetPageId + '"]');
+                if (tab) tab.classList.add('active');
+                const page = document.getElementById(targetPageId);
+                if (page) page.classList.add('active');
+                // Attach info card listeners if Home is shown
+                if (targetPageId === 'home-page') {
+                    attachInfoCardListeners();
+                }
+                // Render checklist if Checklist is shown
+                if (targetPageId === 'checklist-page') {
+                    renderChecklist();
+                }
+            }
+            
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {
                     const targetPageId = this.getAttribute('data-page');
-                    
-                    // Remove active class from all tabs and pages
-                    tabs.forEach(t => t.classList.remove('active'));
-                    pages.forEach(p => p.classList.remove('active'));
-                    
-                    // Add active class to current tab and page
-                    this.classList.add('active');
-                    document.getElementById(targetPageId).classList.add('active');
+                    activatePage(targetPageId);
                 });
             });
             
             // Login functionality
             const loginForm = document.getElementById('login-form');
-            
             loginForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                
                 const username = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
-                
-                // Simple validation
                 if (username && password) {
-                    // Simulate login process
                     alert(`Welcome back, ${username}! You are now logged in.`);
-                    
-                    // Reset form
                     loginForm.reset();
+                    // Hide login, show Home, attach listeners
+                    document.getElementById('login-page').classList.remove('active');
+                    activatePage('home-page');
                 } else {
                     alert('Please enter both username and password.');
                 }
@@ -850,132 +835,390 @@
                 });
             });
             
-            // Task management functionality
-            const addTaskBtn = document.getElementById('add-task-btn');
-            const newTaskInput = document.getElementById('new-task');
-            const taskListJune = document.getElementById('task-list-june');
-            const taskListJuly = document.getElementById('task-list-july');
-            const taskListAugust = document.getElementById('task-list-august');
-            const progressLabel = document.getElementById('progress-label');
-            const progressBar = document.getElementById('progress-bar');
-            
-            // Progress bar update function
-            function updateProgressBar() {
-                const allTasks = document.querySelectorAll('.task-item input[type="checkbox"]');
-                const completedTasks = document.querySelectorAll('.task-item input[type="checkbox"]:checked');
-                const progressLabel = document.getElementById('progress-label');
-                const progressBar = document.getElementById('progress-bar');
-                const total = allTasks.length;
-                const completed = completedTasks.length;
-                progressLabel.textContent = `${completed} of ${total} tasks completed`;
-                progressBar.style.width = total === 0 ? '0%' : `${(completed / total) * 100}%`;
-            }
-            // Update progress bar on load
-            updateProgressBar();
-            // Update progress bar on checkbox change
-            document.querySelectorAll('.task-item input[type="checkbox"]').forEach(checkbox => {
-                checkbox.addEventListener('change', updateProgressBar);
-            });
-            // Update progress bar when adding a new task (add to August by default)
-            addTaskBtn.addEventListener('click', function() {
-                const taskText = newTaskInput.value.trim();
-                if (taskText) {
-                    const taskItem = document.createElement('div');
-                    taskItem.className = 'task-item';
-                    taskItem.innerHTML = `
-                        <input type="checkbox">
-                        <div class="task-content">
-                            <h3>${taskText}</h3>
-                            <p>Added just now</p>
-                        </div>
-                    `;
-                    // Add to June by default
-                    document.getElementById('task-list-august').prepend(taskItem);
-                    newTaskInput.value = '';
-                    
-                    // Add event listener to new checkbox
-                    const checkbox = taskItem.querySelector('input[type="checkbox"]');
-                    checkbox.addEventListener('change', updateProgressBar);
-                    updateProgressBar();
-                }
-            });
-            
-            // Initialize task checkboxes
-            const checkboxes = document.querySelectorAll('.task-item input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    this.parentElement.classList.toggle('completed', this.checked);
-                    updateProgress();
-                });
-            });
-            
-            // Helper functions for common actions
-            function hideAllPages() {
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            }
-
-            function deactivateAllTabs() {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            }
-
-            // Home page info card navigation
-            const homePage = document.getElementById('home-page');
-            if (homePage) {
-                homePage.addEventListener('click', (e) => {
-                    const card = e.target.closest('.info-card');
-                    
-                    if (card) {
-                        const heading = card.querySelector('h3')?.textContent.trim().toLowerCase() || '';
-                        console.log('Info card clicked:', heading);
-
-                        // Define page mappings
-                        const pageMap = {
-                            'career training': 'about-info-page',
-                            'academic planning': 'features-info-page',
-                            'financial aid': 'support-info-page'
-                        };
-
-                        // Find matching page ID
-                        const infoId = Object.keys(pageMap).find(key => heading.includes(key)) 
-                                        ? pageMap[Object.keys(pageMap).find(key => heading.includes(key))] 
-                                        : '';
-
-                        console.log('Resolved infoId:', infoId);
-
-                        if (infoId) {
-                            hideAllPages();
-                            deactivateAllTabs();
-                            document.getElementById(infoId).classList.add('active');
-                            console.log('Activated info page:', infoId);
-                        } else {
-                            console.log('No matching info page for:', heading);
-                        }
-                    }
-                });
-            }
-
-            // Add back-to-home buttons
-            const infoPages = ['about-info-page', 'features-info-page', 'support-info-page'];
-            infoPages.forEach(pageId => {
-                const page = document.getElementById(pageId);
-                if (page && !page.querySelector('.back-to-home')) {
-                    const btn = document.createElement('button');
-                    btn.className = 'btn back-to-home';
-                    btn.textContent = 'Back to Home';
-                    btn.style.marginTop = '20px';
-                    
-                    btn.addEventListener('click', () => {
-                        hideAllPages();
-                        deactivateAllTabs();
-                        document.getElementById('home-page').classList.add('active');
-                        document.querySelector('.tab[data-page="home-page"]').classList.add('active');
+            // Info card click navigation (attach listeners every time Home is shown)
+            function attachInfoCardListeners() {
+                document.querySelectorAll('.info-card').forEach(card => {
+                    // Remove previous listeners by cloning the node
+                    const newCard = card.cloneNode(true);
+                    card.parentNode.replaceChild(newCard, card);
+                    newCard.addEventListener('click', function() {
+                        // Hide all pages
+                        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                        // Remove active from all tabs
+                        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        // Show the info page
+                        const info = newCard.getAttribute('data-info');
+                        document.getElementById(info + '-info-page').classList.add('active');
                     });
+                });
+            }
 
-                    // Find content container or use page as fallback
-                    const container = page.querySelector('.page-content') || page;
-                    container.appendChild(btn);
+            // Checklist data for all grades
+            const checklistData = {
+                '9th': {
+                    'August': [
+                        'Schedule a planning session with ICAN',
+                        'Attend an ICAN Freshman Transition event or stream online',
+                        "Sign up for ICAN's Tip of the Week",
+                        'Stay organized with a planner or planning app'
+                    ],
+                    'September': [
+                        'Get involved with extracurriculars and track them with an activities resume',
+                        'Attend the Golden Circle College & Career Fair',
+                        'Explore career assessments',
+                        'Ask adults what they like or dislike about their careers. Find out what type of education or training is required for their jobs.'
+                    ],
+                    'October': [
+                        'Explore your interests and connect to potential careers with a career assessment',
+                        'Explore education and training options. Visit college raptor.com to explore four-year options.',
+                        "Explore Iowa's technical and two-year programs by visiting ICANsucceed.org/CTEoptions",
+                        'Learn about apprenticeship programs by visiting ICANsucceed.org/careertraining'
+                    ],
+                    'November': [
+                        'Talk with parents about future plans including personal and academic goals',
+                        'Meet with your school counselor about course selection',
+                        'Read regularly to develop strong vocabulary'
+                    ],
+                    'December': [
+                        'Learn computer applications(Word, Excel, etc.)',
+                        'Research 3 careers and related training programs',
+                        'Volunteer in your community. Some scholarships are based on community service'
+                    ],
+                    'January': [
+                        'Learn about types of financial aid. Visit www.icansucceed.org/payforcollege',
+                        'Compare career pathways and explore skill building at ICANsucceed.org/career-planning',
+                        'Make sure you have a plan to save. Talk to your parents about a college savings plan or open an account at your bank'
+                    ],
+                    'February': [
+                        'Research high-growth jobs and their required training',
+                        'Choose 10th-grade classes with counselor',
+                        'Identify job shadow options. Your school counselor can help.'
+                    ],
+                    'March': [
+                        'Find summer camps in your area of interest',
+                        'Keep GPA strong - freshman classes count and can impact admission and scholarships',
+                        'Attend the Future Ready career & college Fair'
+                    ],
+                    'April': [
+                        'Talk to seniors about their planning process and how they made their decisions',
+                        'Visit a college campus or take a virtual tour',
+                        'Build relationships for future letters of recommendation'
+                    ],
+                    'May': [
+                        'Job shadow, volunteer, or intern',
+                        'Start a summer reading list',
+                        'Learn about athletic requirements if you want to play sports in college'
+                    ],
+                    'June': [
+                        'Experience a college campus this summer via an event or summer camp',
+                        'Create an activities resume - ICANsucceed.org/activitiesresume',
+                        'Talk to adults about their career choices'
+                    ],
+                    'July': [
+                        'Review career assessment and explore matching colleges',
+                        'Join hobbies tied to career interests',
+                        'Stay open to changing goals'
+                    ]
+                },
+                '10th': {
+                    'August': [
+                        'Visit ICAN Center for career/college planning',
+                        'Sign up for ICAN Tip of the Week',
+                        'Plan to attend a college fair this fall',
+                        'Get involved and find an activity you enjoy'
+                    ],
+                    'September': [
+                        'Attend Golden Circle College and Career Fair',
+                        'Talk to you school counselor about taking the PreACT or PSAT/NMSQT. Register if interested.',
+                        'Meet with college representatives or career speakers visting your high school',
+                        'Explore careers through a job shadow'
+                    ],
+                    'October': [
+                        'Compare careers and research job characteristics',
+                        'If the military interests you, now is the time to explore military education benefits',
+                        'Find a mentor to assist with your planning process'
+                    ],
+                    'November': [
+                        'Discuss admission requirements with counselor',
+                        'Explore tuition and financial aid options',
+                        'Talk to adults about their careers'
+                    ],
+                    'December': [
+                        'Update your extracurriculars and community service in your activities resume (due Date 12/31)',
+                        'Schedule advising session with ICAN (due date - 12/31)',
+                        'Learn about sticker price and net price for college',
+                        'Volunteer over winter break (Due Date - 12/31)'
+                    ],
+                    'January': [
+                        'Take a career or personality assessment (Due Date - 1/31)',
+                        'Meet with your counselor about junior year classes',
+                        'Review financial plan for post-high school'
+                    ],
+                    'February': [
+                        'Attend ICAN planning nights',
+                        'Confirm junior year classes align with your career path',
+                        'Explore career pathways using MyACT',
+                        'Learn about AP and college credit classes options'
+                    ],
+                    'March': [
+                        'Schedule college tours for summer break',
+                        'Attend ICAN Future Ready Fair',
+                        'Talk to professionals in your field of interest'
+                    ],
+                    'April': [
+                        'Review college financial plan',
+                        'Explore scholarships and savings strategies',
+                        'Gain experience via job shadowing or internships',
+                        'Learn about Return on Investment for different career paths'
+                    ],
+                    'May': [
+                        'Check status of savings plans',
+                        'Ask counselor about summer programs',
+                        'Look for summer jobs related to your interests'
+                    ],
+                    'June': [
+                        'Keep reading over the summer',
+                        'Join hobbies that develop career interests',
+                        'Learn about athletic eligibility for college if interested'
+                    ],
+                    'July': [
+                        'Tour college campuses during camp visits',
+                        'Talk to parents about cost planning',
+                        'Maintain connections for future recommendations'
+                    ]
+                },
+                '11th': {
+                    'August': [
+                        'Sign up for ICAN Tip of the Week - Learn more (ICANsucceed.org/signup)',
+                        'Learn about college fairs/events (Learn More - ICANsucceed.org/collegefairs)',
+                        'Keep GPA up - every class counts for admission and scholarship',
+                        'Review/start a savings plan',
+                        'Take a career assessment  Learn more (ICANsucceed.org/career-planning) (Due Date - 8/31)',
+                        'Talk to parents about careers'
+                    ],
+                    'September': [
+                        'Attend the Golden Circle College & Career Fair (Due Date - 9/21) Learn more - ICANsucceed.org/goldencircle',
+                        'Register for the PSAT/NMSQT',
+                        'Explore military and apprenticeship options  Learn more (ICANsucceed.org/militaryoptions)',
+                        'Schedule ICAN advising session to review your plan (ICANsucceed.org/apt) Due Date - 9/30'
+                    ],
+                    'October': [
+                        'Attend college/career fairs',
+                        'Explore Iowa colleges',
+                        'Talk with your counselor about admission readiness'
+                    ],
+                    'November': [
+                        'Review college brochures',
+                        'Make a list of 10–15 colleges',
+                        'Download the College Checklist  (ICANsucceed.org/materials)',
+                        'Start SAT/ACT planning'
+                    ],
+                    'December': [
+                        'Register for January SAT or February ACT (Due Date is registration deadline)',
+                        'Meet with college reps/career speakers',
+                        'Use CollegeRaptor.com to compare colleges',
+                        'Research scholarships (Due Date - Dec 31) Learn more - ICANsucceed.org/scholarships'
+                    ],
+                    'January': [
+                        'Register for March SAT (Due Date would be the registration ddeadline each year)',
+                        'Meet with college reps/career speakers',
+                        'Create an education/training budget (studentloan.org/ROCITtool)',
+                        'Schedule planning with ICAN (ICANsucceed.org/apt) Due Date  1/31'
+                    ],
+                    'February': [
+                        'Attend a financial aid seminar (Find an event - ICANsucceed.org/events)',
+                        'Choose senior classes aligned with your career path (Due Date 2/28)',
+                        'Register for April ACT (Due Date is registration deadline)',
+                        'Talk about AP/CLEP/honors courses',
+                        'Plan campus visits based on \'No School\' days'
+                    ],
+                    'March': [
+                        'Attend the ICAN Future Ready Fair  (Due Date - 3/26) Learn more - ICANsucceed.org/futurereadyfair',
+                        'Schedule visits to colleges/apprenticeships',
+                        'Register for May SAT (Due Date is registration deadline)',
+                        'Consider summer college credit courses or camp activities'
+                    ],
+                    'April': [
+                        'Plan for AP exams',
+                        'Go on campus visits. Use the ICAN Campus Visits worksheet to aid in your visit (ICANsucceed.org/materials)',
+                        'Compare/rank colleges based on your visits',
+                        'Register for June ACT/SAT (Due date is regsitration deadline)'
+                    ],
+                    'May': [
+                        'Narrow top college/apprenticeship choices',
+                        'Take AP exams',
+                        'Get a career-related summer job',
+                        'Update activities resume (Due Date May 31)'
+                    ],
+                    'June': [
+                        'Schedule final campus visits',
+                        'Start private scholarship applications  (ICANsucceed.org/scholarships)',
+                        'Save money for college',
+                        'Review athletic requirements (if applicable)'
+                    ],
+                    'July': [
+                        'Review admission application requirements (Due date 7/31)',
+                        'Request letters of recommendation',
+                        'Create a spending plan with parents'
+                    ]
+                },
+                '12th': {
+                    'August': [
+                        'Sign up for ICAN Senior Alerts (Due 9/1) ICANsucceed.org/signup',
+                        'Begin application essays and recommendation requests',
+                        'Research deadlines for scholarships and financial aid',
+                        'Talk to admissions reps about retaking SAT/ACT',
+                        'Register for placement and entrance exams (Due date is regsitration deadlines)',
+                        'Create a StudentAid.gov account  (Due Date 9/30) Link should be studentaid.gov'
+                    ],
+                    'September': [
+                        'Schedule ICAN college/career planning session (Due date9/31) ICANsucceed.org/apt',
+                        'Begin submitting admission applications. (Due Date Nov 1)',
+                        'Update activities resume (Due Date 10/1) ICANsucceed.org/activitiesresume',
+                        'Schedule your FAFSA appointment with ICAN (Due Date: 10/15) ICANsucceed.org/apt',
+                        'Gather needed documents for FAFSA completion Due date ; Oct 1 (ICANsucceed.org/whattobring)'
+                    ],
+                    'October': [
+                        'Sumbit your FAFSA between Oct 1 and your earliest priority date. Learn about priority dates at ICANsucceed.org/priority',
+                        'Schedule FAFSA completion appointment (Due Date 10/31) ICAnsucceed.org/apt',
+                        'Submit admissions and scholarship apps by Nov 1',
+                        'Research military benefits (ICANsucceed.org/militaryoptions)',
+                        'Find FAFSA assistance events near you (ICANsucceed.org/FAFSAreadyiaevents)'
+                    ],
+                    'November': [
+                        'Finalize and submit applications (Due date Nov 15)',
+                        'Start free scholarship searches (ICANsucceed.org/scholarships)',
+                        'Set up StudentAid.gov account (if not done) (Studentaid.gov) Due Date 11/15',
+                        'Stay focused on grades. Senior year grades guarantee admission to college',
+                        'Register for December ACT (Due date is regsitration deadline)'
+                    ],
+                    'December': [
+                        'Check with counselor on local/state scholarships',
+                        'Monitor for acceptance letters',
+                        'Research additional financial aid options',
+                        'Upon FAFSA submission, watch for your FAFSA Submission Summary',
+                        'Create a plan to finance college - studentloan.org/gameplan'
+                    ],
+                    'January': [
+                        'Schedule a financial aid package review session with ICAN - ICANsucceed.org/apt (Due Date - 4/1)',
+                        "If you still haven't filed the FAFSA, get it submitted ASAP",
+                        'Ask your counselor to send first semester transcripts',
+                        'Submit your houseing applications'
+                    ],
+                    'February': [
+                        'Determine if you need to submit additional paperwork for financial aid to each college',
+                        'Maintain strong grades. Second semester grades are important and can impact scholarship eligibility and admission',
+                        'Continue applying for scholarships and grants - ICANsucceed.org/scholarships'
+                    ],
+                    'March': [
+                        'Use College Funding Forecaster to outline your plan to cover college costs - studentloan.org/forecaster',
+                        'Meet with ICAN to review your financial aid packages (ICANsucceed.org/apt) Due date: 4/15',
+                        'Heading to an apprenticeship? Make connections to determine next steps (ICANsucceed.org/career-training)'
+                    ],
+                    'April': [
+                        'Prepare for May 1 Decision Day',
+                        'Create/review budget with parents',
+                        'Notify other colleges if not attending'
+                    ],
+                    'May': [
+                        'Take AP/CLEP exams',
+                        'Finalize summer job plans',
+                        'Ask counselor to submit final transcripts',
+                        'Return all documents to your college',
+                        'Notify college of scholarships'
+                    ],
+                    'June': [
+                        'Confirm tools/certifications for apprenticeships',
+                        'Attend orientation',
+                        'Thank your support network',
+                        'Complete loan paperwork'
+                    ],
+                    'July': [
+                        'Use ICAN\'s Packing List  (ICANsucceed.org/materials)',
+                        'Coordinate with roommate',
+                        'Renew FAFSA for following year'
+                    ]
                 }
-            });
+            };
+
+            function getSelectedGrade() {
+                const gradeSelect = document.getElementById('profile-grade');
+                return gradeSelect ? gradeSelect.value : '9th';
+            }
+
+            function renderChecklist() {
+                const grade = getSelectedGrade();
+                const gradeData = checklistData[grade];
+                const container = document.getElementById('checklist-tasks-container');
+                container.innerHTML = '';
+                
+                let total = 0;
+                let completed = 0;
+                
+                Object.keys(gradeData).forEach(month => {
+                    const monthDiv = document.createElement('div');
+                    monthDiv.className = 'checklist-month';
+                    
+                    const monthTitle = document.createElement('h3');
+                    monthTitle.textContent = month;
+                    monthDiv.appendChild(monthTitle);
+                    
+                    gradeData[month].forEach(task => {
+                        total++;
+                        
+                        const taskDiv = document.createElement('div');
+                        taskDiv.className = 'task-item';
+                        
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.addEventListener('change', function() {
+                            taskDiv.classList.toggle('completed', this.checked);
+                            updateProgress();
+                        });
+                        
+                        const contentDiv = document.createElement('div');
+                        contentDiv.className = 'task-content';
+                        
+                        const h3 = document.createElement('h3');
+                        h3.textContent = task;
+                        contentDiv.appendChild(h3);
+                        
+                        taskDiv.appendChild(checkbox);
+                        taskDiv.appendChild(contentDiv);
+                        monthDiv.appendChild(taskDiv);
+                    });
+                    
+                    container.appendChild(monthDiv);
+                });
+                
+                updateProgress();
+            }
+            
+            function updateProgress() {
+                const checkboxes = document.querySelectorAll('#checklist-tasks-container input[type="checkbox"]');
+                const total = checkboxes.length;
+                const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+                const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+                
+                document.getElementById('checklist-progress-bar').style.width = percent + '%';
+                document.getElementById('checklist-progress-percent').textContent = percent + '%';
+            }
+            
+            // Listen for grade changes
+            const gradeSelect = document.getElementById('profile-grade');
+            if (gradeSelect) {
+                gradeSelect.addEventListener('change', function() {
+                    renderChecklist();
+                });
+            }
+            
+            // On DOMContentLoaded, if Home is visible, attach listeners
+            if (document.getElementById('home-page').classList.contains('active')) {
+                attachInfoCardListeners();
+            }
+            
+            // Initialize checklist on page load
+            renderChecklist();
         });
     </script>
 </body>
