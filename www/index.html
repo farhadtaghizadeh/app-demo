@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mobile App Framework</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase client library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
@@ -469,6 +471,84 @@
             border-radius: 4px;
             transition: width 0.3s;
         }
+
+       
+
+        .create-account-form {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+            margin: auto;
+            padding: 30px;
+            position: relative;
+        }
+
+        .create-account-form h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .create-account-form .form-group {
+            margin-bottom: 15px;
+        }
+
+        .create-account-form .form-group label {
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: 500;
+            display: block;
+        }
+
+        .create-account-form .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .create-account-form .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .create-account-form .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .create-account-form .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .create-account-form .btn:active {
+            transform: translateY(0);
+        }
+
+        .create-account-form #ca-cancel {
+            background: #eee;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .create-account-form #ca-cancel:hover {
+            background: #ddd;
+        }
     </style>
 </head>
 <body>
@@ -486,8 +566,8 @@
                         <h2>Welcome Back</h2>
                         <form id="login-form">
                             <div class="form-group">
-                                <label for="username">Username or Email</label>
-                                <input type="text" id="username" class="form-control" placeholder="Enter your username" required>
+                                <label for="email">Email</label>
+                                <input type="text" id="email" class="form-control" placeholder="Enter your email" required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
@@ -725,7 +805,7 @@
                             <img src="img/icanlogo.jpg" alt="Profile" style="width:80px; height:80px; border-radius:50%; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
                         </div>
                         <div class="profile-info" style="text-align:center; margin-bottom: 24px;">
-                            <h3 id="profile-username">John Doe</h3>
+                            <h3 id="profile-fullname">John Doe</h3>
                             <p id="profile-email">john.doe@email.com</p>
                         </div>
                         <form id="profile-form" style="max-width: 350px; margin: 0 auto;">
@@ -753,7 +833,58 @@
                                 <input type="text" id="profile-school" class="form-control" placeholder="Enter your school name">
                             </div>
                         </form>
+                        <button id="auth-toggle-btn" class="btn" style="margin-top:20px;"></button>
                     </div>
+                </div>
+            </div>
+
+            <!-- Create Account Page -->
+            <div id="create-account-page" class="page">
+                <h2>Create Account</h2>
+                <div class="page-content">
+                    <form id="create-account-form" class="create-account-form">
+                        <div class="form-group">
+                            <label for="ca-email">Email</label>
+                            <input type="text" id="ca-email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ca-password">Password</label>
+                            <input type="password" id="ca-password" class="form-control" placeholder="Enter password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ca-confirm">Confirm Password</label>
+                            <input type="password" id="ca-confirm" class="form-control" placeholder="Confirm password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ca-fullname">Full Name</label>
+                            <input type="text" id="ca-fullname" class="form-control" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ca-grade">Grade Level</label>
+                            <select id="ca-grade" class="form-control">
+                                <option>9th</option>
+                                <option>10th</option>
+                                <option>11th</option>
+                                <option>12th</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ca-gradyear">Graduation Year</label>
+                            <select id="ca-gradyear" class="form-control">
+                                <option>2026</option>
+                                <option>2027</option>
+                                <option>2028</option>
+                                <option>2029</option>
+                                <option>2030</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ca-school">School Name</label>
+                            <input type="text" id="ca-school" class="form-control" placeholder="Enter your school name">
+                        </div>
+                        <button type="submit" class="btn">Create Account</button>
+                        <button type="button" id="ca-cancel" class="btn" style="background:#eee; color:#333; margin-top:10px;">Cancel</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -777,10 +908,40 @@
                 <span>Profile</span>
             </div>
         </div>
+
+      
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs/plugin/relativeTime.js"></script>
+    <script>dayjs.extend(dayjs_plugin_relativeTime);</script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script>
+        // Supabase configuration
+        const SUPABASE_URL = 'https://gpedhjqcomngkharrsep.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwZWRoanFjb21uZ2toYXJyc2VwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI3MzM2MTUsImV4cCI6MjA2ODMwOTYxNX0.pWN3ca99pbJQsLzDtjS162xGS5IB9-9BNUz9eL9V4hg';
+        
+        // Initialize Supabase client
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         document.addEventListener('DOMContentLoaded', function() {
+            /* -----------------------------------------------------------
+            APP START-UP  – decide which page to show
+            ----------------------------------------------------------- */
+            (async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession()
+
+            if (session) {
+                // There is a remembered login
+                activatePage('home-page')          // land on Home
+                await hydrateProfile(session.user) // fill the profile UI
+                renderChecklist()                  // load completed items
+                updateAuthToggle()                 // sets Log-out button
+            } else {
+                // No stored session – stay on login page (already active)
+                updateAuthToggle()                 // sets Log-in button
+            }
+            })()
             // Tab navigation functionality
             const tabs = document.querySelectorAll('.tab');
             const pages = document.querySelectorAll('.page');
@@ -800,6 +961,9 @@
                 if (targetPageId === 'checklist-page') {
                     renderChecklist();
                 }
+                if (targetPageId === 'notifications-page') {
+                    renderNotifications()
+                }
             }
             
             tabs.forEach(tab => {
@@ -811,19 +975,56 @@
             
             // Login functionality
             const loginForm = document.getElementById('login-form');
-            loginForm.addEventListener('submit', function(e) {
+            loginForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                const username = document.getElementById('username').value;
+                const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
-                if (username && password) {
-                    alert(`Welcome back, ${username}! You are now logged in.`);
-                    loginForm.reset();
-                    // Hide login, show Home, attach listeners
-                    document.getElementById('login-page').classList.remove('active');
-                    activatePage('home-page');
-                } else {
-                    alert('Please enter both username and password.');
+                if (!email || !password) {
+                    alert('Please enter both email and password.');
+                    return;
                 }
+                // Supabase sign in
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email,
+                    password
+                });
+                if (error) {
+                    alert('Login error: ' + error.message);
+                    return;
+                }
+                alert(`Welcome back, ${email}! You are now logged in.`);
+                loginForm.reset();
+                document.getElementById('login-page').classList.remove('active');
+                activatePage('home-page');
+                updateAuthToggle(); 
+
+                if (data && data.user) {
+                    // First, get the profile data from profiles table
+                    const { data: profileData, error: profileError } = await supabaseClient
+                        .from('profiles')
+                        .select('*')
+                        .eq('id', data.user.id)
+                        .single();
+                        
+                    if (profileError) {
+                        console.error('Error fetching profile data:', profileError);
+                    } else if (profileData) {
+                        // Update UI with profile data
+                        document.getElementById('profile-fullname').textContent = profileData.fullname;
+                        document.getElementById('profile-email').textContent = profileData.email || email;
+                        
+                        // Use profile data to update form fields
+                        if (profileData.grade) document.getElementById('profile-grade').value = profileData.grade;
+                        if (profileData.gradyear) document.getElementById('profile-gradyear').value = profileData.gradyear;
+                        if (profileData.school) document.getElementById('profile-school').value = profileData.school;
+                        
+                        // Add any other profile fields you have in your table
+                        // For example:
+                        // if (profileData.full_name) document.getElementById('profile-full-name').value = profileData.full_name;
+                        // if (profileData.bio) document.getElementById('profile-bio').value = profileData.bio;
+                    }
+                }
+
             });
             
             // Social login buttons
@@ -1146,55 +1347,73 @@
                 return gradeSelect ? gradeSelect.value : '9th';
             }
 
-            function renderChecklist() {
-                const grade = getSelectedGrade();
-                const gradeData = checklistData[grade];
-                const container = document.getElementById('checklist-tasks-container');
-                container.innerHTML = '';
+            async function renderChecklist () {
+                const grade       = getSelectedGrade()
+                const gradeData   = checklistData[grade]
+                const container   = document.getElementById('checklist-tasks-container')
+                container.innerHTML = ''
+
+                /* load saved list; never throws */
+                const completedList = await loadChecklist()
+
+                /* build UI */
+                Object.entries(gradeData).forEach(([month, tasks]) => {
+                    const monthDiv   = document.createElement('div')
+                    monthDiv.className = 'checklist-month'
+
+                    const monthTitle = document.createElement('h3')
+                    monthTitle.textContent = month
+                    monthDiv.appendChild(monthTitle)
+
+                    tasks.forEach(task => {
+                    const itemDiv  = document.createElement('div')
+                    itemDiv.className = 'task-item'
+
+                    const cb       = document.createElement('input')
+                    cb.type = 'checkbox'
+
+                    const content  = document.createElement('div')
+                    content.className = 'task-content'
+
+                    const h3       = document.createElement('h3')
+                    h3.textContent = task
+                    content.appendChild(h3)
+
+                    /* mark checked if in saved list */
+                    if (completedList.some(t => t.task === task)) {
+                        cb.checked = true
+                        itemDiv.classList.add('completed')
+                    }
+
+                    /* change handler */
+                    cb.addEventListener('change', async () => {
+                        itemDiv.classList.toggle('completed', cb.checked)
+                        updateProgress()
+
+                        let current = await loadChecklist()   // still safe
+                        if (cb.checked) {
+                        if (!current.some(t => t.task === task)) {
+                            current.push({ task, completed_at: new Date().toISOString() })
+                        }
+                        } else {
+                        current = current.filter(t => t.task !== task)
+                        }
+                        current.sort((a, b) => new Date(a.completed_at) - new Date(b.completed_at))
+                        await saveChecklist(current)
+                    })
+
+                    itemDiv.appendChild(cb)
+                    itemDiv.appendChild(content)
+                    monthDiv.appendChild(itemDiv)
+                    })
+
+                    container.appendChild(monthDiv)
+                })
+
+                updateProgress()
+                }
                 
-                let total = 0;
-                let completed = 0;
-                
-                Object.keys(gradeData).forEach(month => {
-                    const monthDiv = document.createElement('div');
-                    monthDiv.className = 'checklist-month';
-                    
-                    const monthTitle = document.createElement('h3');
-                    monthTitle.textContent = month;
-                    monthDiv.appendChild(monthTitle);
-                    
-                    gradeData[month].forEach(task => {
-                        total++;
-                        
-                        const taskDiv = document.createElement('div');
-                        taskDiv.className = 'task-item';
-                        
-                        const checkbox = document.createElement('input');
-                        checkbox.type = 'checkbox';
-                        checkbox.addEventListener('change', function() {
-                            taskDiv.classList.toggle('completed', this.checked);
-                            updateProgress();
-                        });
-                        
-                        const contentDiv = document.createElement('div');
-                        contentDiv.className = 'task-content';
-                        
-                        const h3 = document.createElement('h3');
-                        h3.textContent = task;
-                        contentDiv.appendChild(h3);
-                        
-                        taskDiv.appendChild(checkbox);
-                        taskDiv.appendChild(contentDiv);
-                        monthDiv.appendChild(taskDiv);
-                    });
-                    
-                    container.appendChild(monthDiv);
-                });
-                
-                updateProgress();
-            }
-            
-            function updateProgress() {
+                function updateProgress() {
                 const checkboxes = document.querySelectorAll('#checklist-tasks-container input[type="checkbox"]');
                 const total = checkboxes.length;
                 const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
@@ -1211,7 +1430,8 @@
                     renderChecklist();
                 });
             }
-            
+
+
             // On DOMContentLoaded, if Home is visible, attach listeners
             if (document.getElementById('home-page').classList.contains('active')) {
                 attachInfoCardListeners();
@@ -1219,6 +1439,198 @@
             
             // Initialize checklist on page load
             renderChecklist();
+
+            // Show modal on link click
+            const createAccountLink = document.querySelector('.additional-options a[href="#"]:nth-child(2)');
+            if (createAccountLink) {
+                createAccountLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Hide all pages
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    // Show create account page
+                    document.getElementById('create-account-page').classList.add('active');
+                });
+            }
+            // Handle Create Account form submit
+            const caForm = document.getElementById('create-account-form');
+            if (caForm) {
+                caForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('ca-email').value;
+                    const password = document.getElementById('ca-password').value;
+                    const confirm = document.getElementById('ca-confirm').value;
+                    const fullname = document.getElementById('ca-fullname').value;
+                    const grade = document.getElementById('ca-grade').value;
+                    const gradyear = document.getElementById('ca-gradyear').value;
+                    const school = document.getElementById('ca-school').value;
+                    if (!email || !password || !confirm) {
+                        alert('Please fill all required fields.');
+                        return;
+                    }
+                    if (password !== confirm) {
+                        alert('Passwords do not match.');
+                        return;
+                    }
+                    // Supabase sign up
+                    const { data, error } = await supabaseClient.auth.signUp({
+                        email,
+                        password,
+                        options: {
+                            data: { fullname, grade, gradyear, school }
+                        }
+                    });
+                    if (error) {
+                        alert('Sign up error: ' + error.message);
+                        return;
+                    }
+                    caForm.reset();
+                    alert('Account created! Please check your email to confirm your account.');
+                    // Optionally, redirect to login page
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    document.getElementById('login-page').classList.add('active');
+                });
+            }
+            // Cancel button returns to login page
+            const caCancelBtn = document.getElementById('ca-cancel');
+            if (caCancelBtn) {
+                caCancelBtn.addEventListener('click', function() {
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    document.getElementById('login-page').classList.add('active');
+                });
+            }
+
+            /* ---------- SAFE HELPERS ---------- */
+
+            /* returns `user` or null – never throws */
+            async function getCurrentUser () {
+            const { data, error } = await supabaseClient.auth.getUser()
+            if (error) {                   // network or Supabase SDK error
+                console.error(error)
+                return null
+            }
+            return data?.user ?? null
+            }
+
+            /* always resolves to an array (may be empty) */
+            async function loadChecklist () {
+            const user = await getCurrentUser()
+            if (!user) return []           // not signed in → nothing completed yet
+
+            const { data, error } = await supabaseClient
+                .from('checklists')
+                .select('data')
+                .eq('user_id', user.id)
+                .single()
+
+            if (error && error.code !== 'PGRST116') {
+                console.error(error)
+                return []
+            }
+            return data ? data.data : []
+            }
+
+            /* skip save if not signed in; log errors */
+            async function saveChecklist(updatedArray) {
+            const user = await getCurrentUser();
+            if (!user) return;            // no user → silently ignore
+
+            // how many tasks exist for the selected grade
+            const totalTasks = Object
+                .values(checklistData[getSelectedGrade()])
+                .reduce((sum, arr) => sum + arr.length, 0);
+
+            const completed = updatedArray.length;   // ← the array passed in
+
+            const { error } = await supabaseClient
+                .from('checklists')
+                .upsert(
+                {
+                    user_id : user.id,
+                    email   : user.email,
+                    data    : updatedArray,            // ← correct variable
+                    progress: `${completed}/${totalTasks}`
+                },
+                { onConflict: 'user_id' }            // works because you already
+                );                                     // have the unique constraint
+
+            if (error) console.error(error);
+            }
+
+            async function fetchNotifications () {
+                const { data, error } = await supabaseClient
+                    .from('notifications')
+                    .select('id, title, body, created_at')
+                    .order('created_at', { ascending: false })
+                if (error) throw error
+                return data
+            }
+
+            async function renderNotifications() {
+                const list = document.querySelector('.notification-list')
+                list.innerHTML = ''                       // clear previous
+                const rows = await fetchNotifications()   // newest→oldest
+                rows.forEach(n => {
+                    const item  = document.createElement('div')
+                    item.className = 'notification-item'
+                    item.innerHTML = `
+                    <img src="img/icanlogo.jpg" style="width: 15%; height: 15%; object-fit: contain; margin-right: 4%;">
+                    <div class="notification-content">
+                        <h3>${n.title}</h3>
+                        <p>${n.body ?? ''}</p>
+                    </div>
+                    <div class="notification-time">${dayjs(n.created_at).fromNow()}</div>
+                    `
+                    list.appendChild(item)
+                })
+            }
+
+            async function hydrateProfile(user) {
+                const { data: profile, error } = await supabaseClient
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', user.id)
+                    .single()
+                if (error) { console.error(error); return }
+                document.getElementById('profile-fullname').textContent = profile.fullname
+                document.getElementById('profile-email').textContent    = profile.email
+                if (profile.grade)    document.getElementById('profile-grade').value    = profile.grade
+                if (profile.gradyear) document.getElementById('profile-gradyear').value = profile.gradyear
+                if (profile.school)   document.getElementById('profile-school').value   = profile.school
+            }
+
+            /* button in profile page that toggles between Log in / Log out */
+            function resetProfileUI () {
+                document.getElementById('profile-fullname').textContent = 'John Doe';
+                document.getElementById('profile-email').textContent    = 'john.doe@email.com';
+                const gradeEl = document.getElementById('profile-grade');
+                if (gradeEl) gradeEl.value = '9th';
+                const gradYearEl = document.getElementById('profile-gradyear');
+                if (gradYearEl) gradYearEl.value = '2026';
+                const schoolEl = document.getElementById('profile-school');
+                if (schoolEl) schoolEl.value = '';
+            }
+
+            async function updateAuthToggle () {
+                const btn   = document.getElementById('auth-toggle-btn')
+                const user  = (await supabaseClient.auth.getSession()).data.session?.user
+                if (!btn) return
+                if (user) {
+                    btn.textContent = 'Log out'
+                    btn.onclick = async () => {
+                      await supabaseClient.auth.signOut()
+
+                        resetProfileUI()          // ← clears profile page
+                        renderChecklist()         // ← fresh, no items checked
+                        activatePage('login-page')
+                        updateAuthToggle()
+                    }
+                } else {
+                    btn.textContent = 'Log in'
+                    btn.onclick = () => activatePage('login-page')
+                }
+            }
+
+            
         });
     </script>
 </body>
