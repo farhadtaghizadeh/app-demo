@@ -832,6 +832,9 @@
                                 <label for="profile-school">School Name</label>
                                 <input type="text" id="profile-school" class="form-control" placeholder="Enter your school name">
                             </div>
+                            <button type="button" id="profile-save" class="btn" style="margin-top:16px">
+                                Save profile
+                            </button>
                         </form>
                         <button id="auth-toggle-btn" class="btn" style="margin-top:20px;"></button>
                     </div>
@@ -1609,6 +1612,35 @@
                 const schoolEl = document.getElementById('profile-school');
                 if (schoolEl) schoolEl.value = '';
             }
+
+            async function updateProfile () {
+                const user = (await supabaseClient.auth.getSession()).data.session?.user
+                if (!user) { alert('You must be logged in'); return }
+
+                const updates = {
+                    id:       user.id,                                // primary-key column
+                    email:    user.email,                            
+                    fullname: document.getElementById('profile-fullname').textContent,
+                    grade:    document.getElementById('profile-grade').value,
+                    gradyear: document.getElementById('profile-gradyear').value,
+                    school:   document.getElementById('profile-school').value
+    
+                }
+
+                const { error } = await supabaseClient
+                        .from('profiles')
+                        .upsert(updates, { onConflict: 'id' })        // one row per user
+
+                if (error) {
+                    console.error(error)
+                    alert('Could not save profile')
+                } else {
+                    alert('Profile saved')
+                }
+            }
+
+            document.getElementById('profile-save')
+                    .addEventListener('click', updateProfile)
 
             async function updateAuthToggle () {
                 const btn   = document.getElementById('auth-toggle-btn')
